@@ -60,12 +60,31 @@ async def receive_whatsapp_message(request: Request):
             from_number = msg["from"]
             msg_type = msg['type']
 
-            if msg_type == "text":
+            text = msg['text']['body'].strip().lower()
+
+            # Verificacion y, en el caso de no estar registrado, registro.
+            if text.startswith("sign up") and len(text) == 7:
+                existing_user = db.query(User).filter_by(phone_number=from_number).first()
+                if existing_user:
+                    send_whatsapp_message(from_number, text='Ya estas registrado.')
+                else:
+                    new_user = User(phone_number=from_number)
+                    db.add(new_user)
+                    db.commit()
+                    send_whatsapp_message(from_number, text=f"Registro esta completado con exito!")
+                return {"status": "registered"}
+
+             # Verificación de usuario.
+            user = db.query(User).filter(User.phone_number == from_number).first()
+            if not user:
+                send_whatsapp_message(from_number, text="No estas registrado. Por favor, introduce: Sign Up")
+                return {"status": "unauthorized"}
+            if msg_type == "text" and user and text != 'sign up':
                 text = msg["text"]["body"]
                 reply_text = generate_chatgpt_reply(text)
                 send_whatsapp_message(from_number, text=reply_text)
 
-            elif msg_type == "image":
+            elif msg_type == "image" and user:
 
                 media_id = msg["image"]["id"]
 
@@ -83,6 +102,17 @@ async def receive_whatsapp_message(request: Request):
 
                 media_id_gen = upload_image_to_whatsapp(heatmap_gen)
                 media_id_dis = upload_image_to_whatsapp(heatmap_dis)
+
+                # Añadiendo la imagen real y los heatmaps generados en la base de datos.
+                new_real_image = Images(phone_number=from_number, real_image=image_bytes)
+                db.add(new_real_image)
+                db.commit()
+                new_heatmap_gen_image = Images(phone_number=from_number, heatmap_gen=heatmap_gen)
+                db.add(new_heatmap_gen_image)
+                db.commit()
+                new_heatmap_dis_image = Images(phone_number=from_number, heatmap_gen=heatmap_dis)
+                db.add(new_heatmap_dis_image)
+                db.commit()
 
                 send_whatsapp_message(from_number, media_id=media_id_gen, caption='gen_generated')
                 send_whatsapp_message(from_number, media_id=media_id_dis, caption='dis_generated')
