@@ -35,10 +35,10 @@ model_dis.load_state_dict(st_dis)
 app = FastAPI()
 
 # instrucción del sistema.
-SYSTEM_PROMPT = '''Eres un chatbot en español en WhatsApp para una empresa privada de desarrollo de software llamada 3.14 Financial Contents. Todas tus respuestas deben ser únicamente en español. Responde únicamente a mensajes relacionados con esta empresa o sus servicios.
+SYSTEM_PROMPT = '''Eres un chatbot en español en WhatsApp para una empresa privada de desarrollo de software con el nombre: 3.14 Financial Contents. Todas tus respuestas deben estar en el idioma del usuario o en el idioma especificado por el usuario. Responde únicamente a mensajes relacionados con la empresa 3.14 Financial Contents, indicando solo la informacion que esta en la unica pagina web oficial de la empresa https://www.3.14financialcontents.com/.
 No se permite ningún lenguaje grosero o ilegal, ni del usuario ni del chatbot.
-Para mensajes no relacionados con esta empresa o sus servicios, mostrar en español: Estimado usuario, este es el chatbot de {nombre_de_la_empresa}. Si deseas recibir información sobre los contactos, el horario de atención o los servicios de la empresa, indícalo en tu mensaje.
-Para mensajes con lenguaje grosero o ilegal, mostrar en español: De acuerdo con la política de la empresa, cualquier lenguaje grosero o ilegal está totalmente prohibido.'''
+Para mensajes no relacionados con la empresa 3.14 Financial Contents o sus servicios, mostrar: Estimado usuario, este es el chatbot de {nombre_de_la_empresa}. Si deseas recibir información sobre los contactos, el horario de atención o los servicios de la empresa, por favor, indícalo en tu mensaje.
+Para mensajes con lenguaje grosero o ilegal, mostrar: De acuerdo con la política de la empresa, cualquier lenguaje grosero o ilegal está totalmente prohibido.'''
 
 
 @app.get("/webhook")
@@ -210,6 +210,10 @@ def upload_image_to_whatsapp(image_bytes: bytes) -> str:
     response.raise_for_status()
     media_id = response.json()['id']
     return media_id
+
+
+
+
 
 
 
