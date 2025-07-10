@@ -9,6 +9,7 @@ import torch.utils.data as data
 
 class FabricDataset(data.Dataset):
     def __init__(self, image_dir, transform=None):
+        super().__init__()
         # Si recibido un archivo .7z, abriendolo en una carpeta temporal
         if image_dir.endswith('.7z'):
             self.extract_dir = image_dir.replace('.7z', '_extracted')
