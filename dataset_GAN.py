@@ -43,7 +43,7 @@ class FabricDataset(data.Dataset):
         # Obtener la ruta a la imagen por index.
         image_path = self.image_paths[idx]
 
-        # Abrir la imagen mediante PIL y la convertir a RGB.
+        # Abrir la imagen mediante PIL y convertrla a RGB.
         image = Image.open(image_path).convert('RGB')
 
         # Aplicar transformaciones
