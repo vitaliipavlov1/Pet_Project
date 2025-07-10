@@ -23,7 +23,7 @@ class FabricDataset(data.Dataset):
         self.image_paths = [p for p in self.image_paths if p.lower().endswith(('.png', '.jpg', '.jpeg', '.tif'))]
 
         if not self.image_paths:
-            raise RuntimeError(f'Изображения не найдены в {image_dir}')
+            raise RuntimeError(f'No se encontraron imagenes en {image_dir}')
 
         if transform is None:
             self.transform = tfs_v2.Compose([
