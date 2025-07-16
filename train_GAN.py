@@ -16,7 +16,7 @@ image_size = 256
 batch_size = 8
 lr = 1e-4
 epochs = 30
-data_dir = r"C:\Users\Bary Flin\PycharmProjects\Pet_Project_GAN\nondefects.7z"  # ruta a la carpeta con imágenes de tejido normal.
+data_dir = r"C:\Users\VitaliiPavlov\PycharmProjects\Pet_Project_GAN\nondefects.7z"  # ruta a la carpeta con imágenes de tejido normal.
 
 
 # Transformaciones
