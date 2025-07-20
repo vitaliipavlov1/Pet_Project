@@ -16,7 +16,7 @@ class Images(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id")
-    phone_number = Column(Integer)
+    phone_number = Column(Integer, nullable=False)
     real_image = Column(LargeBinary, nullable=False)
     heatmap_gen = Column(LargeBinary, nullable=False)
     heatmap_dis = Column(LargeBinary, nullable=False)
