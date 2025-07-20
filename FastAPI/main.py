@@ -244,3 +244,6 @@ def upload_image_to_whatsapp(image_bytes: bytes) -> str:
     response.raise_for_status()
     media_id = response.json()['id']
     return media_id
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
