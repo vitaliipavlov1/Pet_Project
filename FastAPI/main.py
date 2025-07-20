@@ -180,14 +180,14 @@ def send_whatsapp_message(to_number: str, text: Optional[str], media_id: Optiona
 
 def get_image_url(media_id: str) -> str:
     url = f"https://graph.facebook.com/v18.0/{media_id}"
-    headers = {"Authorization": f"Bearer {WHATSAPP_TOKEN}"}
+    headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
     response = requests.get(url, headers=headers)
     response.raise_for_status()
     return response.json()["url"]
 
 
 def download_image(media_url: str) -> bytes:
-    headers = {"Authorization": f"Bearer {WHATSAPP_TOKEN}"}
+    headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
     response = requests.get(media_url, headers=headers)
     response.raise_for_status()
     return response.content   # bytes
