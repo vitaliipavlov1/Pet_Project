@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_container
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+webfastapi:
+    build: ./fastapi
+    image: fastapi-back
+    container_name: fastapi_container
+    env_file:
+      - .env
+    networks:
+      - backend
+    ports:
+      - "8019:8080"
+    volumes:
+      - ./fastapi:/app
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
